@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-/* Calculator Done 3:43 PM 03/08/2026
-we will make 4 user defined functions of add() subtract() multiply() divide() %()
+/* Calculator Done 5:16 PM 06/08/2026
+we will make 4 user defined functions of add() subtract() multiply() divide()
 and lastly main() for whole menu based system...
 
 every function will return a number to the main function for display.
@@ -10,29 +10,74 @@ every function will return a number to the main function for display.
 Validations to be applied aswell as a security feature
 */
 
-int add(int a, int b) // +
+int add(int a, int b)
 {
-  return a + b;
+    while (b != 0) // till carry doesn't finish run it.
+    {
+        int carry = a & b; // single & gives carry while && gives boolean values
+        a = a ^ b; // this just adds (no carries here)
+        b = carry << 1; // carry adding
+    }
+    return a;
 }
 
 int subtract(int a, int b) // -
 {
-  return a - b;
+  // difference = XOR 
+   while (b != 0) // till borrow doesn't finish run it.
+    {
+        // borrow to be under condition
+        int borrow = (~a) & b;
+        a = a ^ b; // this just borrows
+        b = borrow << 1;
+    }
+    return a;
 }
 
-int multiply(int a, int b) // *
+int multiply(int a, int b) 
 {
- return a * b;
+    int result = 0;
+
+    while (b > 0)
+    {
+        if (b & 1) // Is b odd?
+        {
+            result = result + a;
+        }
+
+        a = a << 1; // multiplication by 2
+        b = b >> 1; // division by 2
+    }
+
+    return result;
 }
 
-int divide(int a, int b) // /
+int divide(int dividend, int divisor) // very very easy
 {
- return a / b;
+    int quotient = 0; // no division applied till now
+
+    // if divisor gets big, division already finished, it will convert to points then
+    while (dividend >= divisor) // 8 >= 4
+    {
+        dividend = dividend - divisor;
+        quotient = quotient + 1;
+    }
+
+    return quotient;
 }
 
-int mod(int a, int b) // % modulus as a built in function was ambigous that's why didn't use
+int mod(int dividend, int divisor) // very very easy
 {
- return a % b;
+    int remainder = 0; // no division applied till now
+
+    // if divisor gets big, division already finished, it will convert to points then
+    while (dividend >= divisor) // 8 >= 4
+    {
+        dividend = dividend - divisor;
+        remainder = dividend;
+    }
+
+    return remainder; // you can also return dividended directly if you like
 }
 
 int main()
@@ -87,13 +132,14 @@ int main()
          cout<< "RESULT : " << divide(n1,n2) << endl;
         break;
 
-        case 5: // %
+        case 5: // /
          cout << "Enter 1st number : ";
          cin >> n1;
          cout << "Enter 2nd number : ";
          cin >> n2;
-         cout<< "RESULT : " << mod(n1,n2) << endl; 
+         cout<< "RESULT : " << mod(n1,n2) << endl;
         break;
+
       default: // any other number other than the above will result in defualt case automatically
          // clearing screen
          system("cls");
