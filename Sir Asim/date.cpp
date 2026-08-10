@@ -88,7 +88,7 @@ int DaysinMonth(int month, int year) {
 }
 
 // whole process in this function
-void calculation(string dateinput, int days, int months, int years) {
+void forward(string dateinput, int days, int months, int years) {
     int d,m,y; // day, month, year
     
     // 0 to 1
@@ -138,11 +138,70 @@ void calculation(string dateinput, int days, int months, int years) {
         }
     }
 
-    // now for years
+    // now for years (EASY)
     for (int i = 0; i < years; i++) {
         y = y + 1; // no issue it can be infinite
     }
+
+    output(d,m,y); // output directly in calculation no need for main
+}
+
+// whole process in this function
+void backward(string dateinput, int days, int months, int years) {
+    int d,m,y; // day, month, year
     
+    // 0 to 1
+    d = stoi(dateinput.substr(0,2)); // sub string extracts the data from start to finish index very easy
+    // 3 to 4
+    m = stoi(dateinput.substr(3,5)); // the finish index is not added to the string (excluded)
+    // 6 to end
+    
+    y = stoi(dateinput.substr(6)); // these extraction is pretty much hard coded
+
+    for (int i = 0;  i < days; i++) { // till the End Of Days
+        d = d - 1; // here we are going backwards
+        
+        /*
+        if month is january and and january has 31 days every year
+        31 > 31 (false)
+        32 > 31 (true) 
+        month should be converted 
+        days are already being running through d = d + 1
+        now m = m + 1 logic
+        */
+        if (d == 0) { // as by - it will come to 0
+            m = m - 1; // month will subtract first
+            d = DaysinMonth(m, y); 
+            // now for the year as like if m is running
+            /*
+            one case will come like m becomes 13
+            so we have to iterate years aswell so
+            iske andar itni bari condition nahi lagti as every year 
+            is increased by december and december has 31 days every year
+            so we will just write m > 12
+            */
+           if (m == 0) {
+              m = 12;
+              y = y - 1;
+           }
+        }
+    }
+
+    // now for months separately
+    for (int i = 0; i < months; i++) {
+        m = m - 1;
+
+        if (m == 0) {
+              m = 12;
+              y = y - 1;
+        }
+    }
+
+    // now for years (EASY)
+    for (int i = 0; i < years; i++) {
+        y = y - 1; // no issue it can be infinite
+    }
+
     output(d,m,y); // output directly in calculation no need for main
 }
 
@@ -165,7 +224,9 @@ int main()
     cin >> Years;
 
     // PASSING THROUGH FUNCTIONS AND ALSO DISPLAYING FROM THEM
-    calculation(dateinput, Days, Months, Years);
+    // forward date chaining
+    forward(dateinput, Days, Months, Years);
+    backward(dateinput, Days, Months, Years);
 
     cout << "Would you Like to Continue? (y/n) : ";
     cin >> choice;
