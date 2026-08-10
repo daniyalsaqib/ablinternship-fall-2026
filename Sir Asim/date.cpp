@@ -88,7 +88,7 @@ int DaysinMonth(int month, int year) {
 }
 
 // whole process in this function
-void calculation(string dateinput, int days) {
+void calculation(string dateinput, int days, int months, int years) {
     int d,m,y; // day, month, year
     
     // 0 to 1
@@ -127,13 +127,29 @@ void calculation(string dateinput, int days) {
            }
         }
     }
+
+    // now for months separately
+    for (int i = 0; i < months; i++) {
+        m = m + 1;
+
+        if (m > 12) {
+              m = 1;
+              y = y + 1;
+        }
+    }
+
+    // now for years
+    for (int i = 0; i < years; i++) {
+        y = y + 1; // no issue it can be infinite
+    }
+    
     output(d,m,y); // output directly in calculation no need for main
 }
 
 int main()
 {
     string dateinput; // the date to be inputted like today 04/08/2026
-    int Days; // The Days to be added
+    int Days, Months, Years; // The Days, Months and Years to be added
     string choice;
 
     // PROMPT
@@ -143,13 +159,19 @@ int main()
     cin >> dateinput;
     cout << "How Many Days To Be Added? : ";
     cin >> Days;
+    cout << "How Many Months To Be Added? : ";
+    cin >> Months;
+    cout << "How Many Years To Be Added? : ";
+    cin >> Years;
 
     // PASSING THROUGH FUNCTIONS AND ALSO DISPLAYING FROM THEM
-    calculation(dateinput, Days);
+    calculation(dateinput, Days, Months, Years);
 
     cout << "Would you Like to Continue? (y/n) : ";
     cin >> choice;
     } while (choice != "n");
     
+    cout << "Thanks For your Time! " << endl;
+
     return 0;
 }
