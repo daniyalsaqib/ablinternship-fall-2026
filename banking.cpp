@@ -20,11 +20,16 @@ int accountnumber, balance; // i'm using balance as integer for simplifying purp
 
 public:
 // CUSTOMERS DETAILS
-int getBalance() {
+int getBalance() { // current balance check
 return balance;
 }
-void Deposit() {
-    
+void Deposit(int value) { // Deposit Money
+    balance = balance + value;
+}
+void Withdraw(int value) { // withdraw money
+    balance = balance - value;
+    cout << value << " PKR Withdrawn from Allied Bank. " << endl;
+    cout << "Remaining Balance : " << getBalance() << endl;
 }
 
 };
