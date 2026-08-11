@@ -214,6 +214,9 @@ void backward(string dateinput, int days, int months, int years) {
     // now for years (EASY)
     for (int i = 0; i < years; i++) {
         y = y - 1; // no issue it can be infinite
+        if (d > DaysinMonth(m,y)) { // for day fixing leap year date
+           d = DaysinMonth(m,y);
+        }
     }
 
     cout << "BACKWARD DATE : ";
