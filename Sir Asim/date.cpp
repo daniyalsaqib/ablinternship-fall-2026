@@ -16,6 +16,9 @@ In C++, dateinput[0] and dateinput[1] are individual characters (e.g., '1' and '
 logging off 04/08/2026 5:14 PM
 
 logging on 05/08/2026 9:37 AM
+
+logging on 11/08/2026 10:45 AM
+
 */
 
 void output(int day, int month, int year) {
@@ -132,6 +135,12 @@ void forward(string dateinput, int days, int months, int years) {
     for (int i = 0; i < months; i++) {
         m = m + 1;
 
+        // we have to play with d aswell (days as it's pivotal)
+        // 28 to 31 days is the main thing
+        // check every if
+        if (d > DaysinMonth(m,y)) {
+           d = DaysinMonth(m,y);
+        }
         if (m > 12) {
               m = 1;
               y = y + 1;
@@ -141,8 +150,12 @@ void forward(string dateinput, int days, int months, int years) {
     // now for years (EASY)
     for (int i = 0; i < years; i++) {
         y = y + 1; // no issue it can be infinite
+        if (d > DaysinMonth(m,y)) { // for day fixing leap year date
+           d = DaysinMonth(m,y);
+        }
     }
 
+    cout << "FORWARD DATE : "; 
     output(d,m,y); // output directly in calculation no need for main
 }
 
@@ -171,7 +184,11 @@ void backward(string dateinput, int days, int months, int years) {
         */
         if (d == 0) { // as by - it will come to 0
             m = m - 1; // month will subtract first
-            d = DaysinMonth(m, y); 
+            if (m == 0) { // check lagna chahiye idhar
+              m = 12;
+              y = y - 1;
+           }
+            
             // now for the year as like if m is running
             /*
             one case will come like m becomes 13
@@ -180,10 +197,7 @@ void backward(string dateinput, int days, int months, int years) {
             is increased by december and december has 31 days every year
             so we will just write m > 12
             */
-           if (m == 0) {
-              m = 12;
-              y = y - 1;
-           }
+            d = DaysinMonth(m, y); 
         }
     }
 
@@ -202,26 +216,49 @@ void backward(string dateinput, int days, int months, int years) {
         y = y - 1; // no issue it can be infinite
     }
 
+    cout << "BACKWARD DATE : ";
     output(d,m,y); // output directly in calculation no need for main
 }
 
 int main()
 {
     string dateinput; // the date to be inputted like today 04/08/2026
-    int Days, Months, Years; // The Days, Months and Years to be added
-    string choice;
+    string choice; // let's try to reuse this variable
 
     // PROMPT
     do {
+    int Days = 0, Months = 0, Years = 0; // The Days, Months and Years to be added
       //  system("cls"); // clearing screen
     cout << "Enter the Date to be input (DD/MM/YYYY) : ";
     cin >> dateinput;
-    cout << "How Many Days To Be Added? : ";
-    cin >> Days;
-    cout << "How Many Months To Be Added? : ";
-    cin >> Months;
-    cout << "How Many Years To Be Added? : ";
-    cin >> Years;
+    
+    // prompt for what to add as per sir
+    cout << "What would you like to Add in the Following Date? : " << endl;
+    cout << "ENTER d For Days" << endl;
+    cout << "ENTER m For Months" << endl;
+    cout << "ENTER y For Years" << endl;
+    cin >> choice;
+    
+    /*
+    switch would be perfect here but c++ doesn't support any other data type in
+    switch except of integer.
+    */
+
+    if (choice == "d"){
+        cout << "How Many Days To Be Added? : ";
+        cin >> Days;
+    }
+    else if (choice == "m") {
+        cout << "How Many Months To Be Added? : ";
+        cin >> Months;
+    }
+    else if (choice == "y"){
+         cout << "How Many Years To Be Added? : ";
+         cin >> Years;
+    }
+    else {
+        cout << "ERROR! YOU HAVE NOT ENTERED ANY VALID Character " << endl;
+    }
 
     // PASSING THROUGH FUNCTIONS AND ALSO DISPLAYING FROM THEM
     // forward date chaining
