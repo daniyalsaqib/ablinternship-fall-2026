@@ -15,42 +15,66 @@ getter and setters
 
 class BankAccount {
 private: // all attributes declared
-string name; 
-int accountnumber, balance; // i'm using balance as integer for simplifying purposes
+string name, accountnumber; 
+int balance; // i'm using balance as integer for simplifying purposes
 
-public:
-// CUSTOMERS DETAILS
+public: // account number for allied bank is 16 digits with first 3 digits is 001.
+BankAccount(string n, string acc, int b = 0) { // default paratermized constructor
+    name = n;
+    accountnumber = acc;
+    balance = b; // by default is 0 but with value can be changed.
+}
+
 int getBalance() { // current balance check
 return balance;
 }
+
 void Deposit(int value) { // Deposit Money
-    if (value <= 0) {
-        cout << "ERROR! Please Enter A Valid Amount To Deposit! " << endl;
-    }
-    else {
+    try
+    {
+        if (value <= 0) {
+         throw value;
+        }
+        else {
         balance = balance + value;
         cout << value << " PKR Deposited To Allied Bank. " << endl;
         cout << "Remaining Balance : " << getBalance() << endl;
+        }
     }
+    catch(...) // catches any type of error using ...
+    {
+        cout << "ERROR! Please Enter A Valid Amount To Deposit! " << endl;
+    }
+    
+   
 }
 void Withdraw(int value) { // Withdraw money
-    if (value <= 0) {
-        cout << "ERROR! Please Enter A Valid Amount To Withdraw! " << endl;
-    }
+    try {
+        if (value <= 0) {
+        throw value; 
+       }
     else if (value > getBalance()) { // 1500 > 1000 error
-        cout << "ERROR! Your Balance : " << getBalance() << endl;
-        cout << "Please Enter a Number equal or below " << getBalance() << " PKR" << endl;
-    }
-    else {
+        throw value;
+        }
+    else { // successful
     balance = balance - value;
     cout << value << " PKR Withdrawn from Allied Bank. " << endl;
     cout << "Remaining Balance : " << getBalance() << endl;
+    }
+    }
+    catch(...) { // handles all type of exceptions
+         cout << "ERROR! Please Enter A Valid Amount To Withdraw! " << endl;
     }
 }
 };
 
 int main()
 {
+    BankAccount Account1("DANIYAL SAQIB", "0010000000000001", 1000);
+    BankAccount Account2("ANAS SHOAIB", "0010000000000002", 2000); 
+    BankAccount Account3("AREEB KHAN", "0010000000000003", 3000); 
+    BankAccount Account4("ALIZAY EHSAN", "0010000000000004", 4000);
+    
     int choice; // for menu based system input
 
     system("cls"); // for clearing the directory line
@@ -72,7 +96,22 @@ int main()
     cout << "Enter your choice: ";
     cin >> choice;
 
-    if (choice == 0) {system("cls");}
+    switch (choice) {
+        case 0:
+        system("cls"); 
+        break;
+        case 1:
+        break;
+        case 2:
+        break;
+        case 3:
+        break;
+        case 4:
+        break;
+        case 5:
+        break;
+    }
+
     } while (choice != 5); // 5 enter krne pr exit hai
     return 0;
 }
