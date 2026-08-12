@@ -24,14 +24,29 @@ int getBalance() { // current balance check
 return balance;
 }
 void Deposit(int value) { // Deposit Money
-    balance = balance + value;
+    if (value <= 0) {
+        cout << "ERROR! Please Enter A Valid Amount To Deposit! " << endl;
+    }
+    else {
+        balance = balance + value;
+        cout << value << " PKR Deposited To Allied Bank. " << endl;
+        cout << "Remaining Balance : " << getBalance() << endl;
+    }
 }
-void Withdraw(int value) { // withdraw money
+void Withdraw(int value) { // Withdraw money
+    if (value <= 0) {
+        cout << "ERROR! Please Enter A Valid Amount To Withdraw! " << endl;
+    }
+    else if (value > getBalance()) { // 1500 > 1000 error
+        cout << "ERROR! Your Balance : " << getBalance() << endl;
+        cout << "Please Enter a Number equal or below " << getBalance() << " PKR" << endl;
+    }
+    else {
     balance = balance - value;
     cout << value << " PKR Withdrawn from Allied Bank. " << endl;
     cout << "Remaining Balance : " << getBalance() << endl;
+    }
 }
-
 };
 
 int main()
