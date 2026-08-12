@@ -29,6 +29,10 @@ int getBalance() { // current balance check
 return balance;
 }
 
+// friend functions for displaying owner name and account number
+friend string getAccountNumber(int choice);
+friend string getOwnerName(int choice);
+
 void Deposit(int value) { // Deposit Money
     try
     {
@@ -66,16 +70,27 @@ void Withdraw(int value) { // Withdraw money
          cout << "ERROR! Please Enter A Valid Amount To Withdraw! " << endl;
     }
 }
-};
+}; // BANKACCOUNT CLASS FINISHED
+
+string getAccountNumber(int choice) {
+    switch (choice) {
+        case 1:
+        return "0010000000000001";
+        case 2:
+        return "0010000000000002";
+        case 3:
+        return "0010000000000003";
+        case 4:
+        return "0010000000000004";
+    }
+}
 
 int main()
 {
-    BankAccount Account1("DANIYAL SAQIB", "0010000000000001", 1000);
-    BankAccount Account2("ANAS SHOAIB", "0010000000000002", 2000); 
-    BankAccount Account3("AREEB KHAN", "0010000000000003", 3000); 
-    BankAccount Account4("ALIZAY EHSAN", "0010000000000004", 4000);
+    BankAccount Account[] = { BankAccount("DANIYAL SAQIB", "0010000000000001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", 2000), BankAccount("AREEB KHAN", "0010000000000003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", 4000) }; 
     
     int choice; // for menu based system input
+    int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
     system("cls"); // for clearing the directory line
 
@@ -83,7 +98,7 @@ int main()
     cout << "============================== " << endl;
     cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
     cout << "============================== " << endl;
-    cout << "Currently selected account: [" << 01035513201 << " - " << "owner name" << "]" << endl;
+    cout << "Currently selected account: [" << getAccountNumber(selectedAccount) << " - " << "owner name" << "]" << endl;
     cout << endl; // VERTICAL SPACING AS per the requirements. 
     
     cout << "0. Clear Screen " << endl; // added feature for clearing output
@@ -101,6 +116,12 @@ int main()
         system("cls"); 
         break;
         case 1:
+        cout << "WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
+        cout << " 1. 0010000000000001" << endl;
+        cout << " 2. 0010000000000002" << endl;
+        cout << " 3. 0010000000000003" << endl;
+        cout << " 4. 0010000000000004" << endl;
+        cin >> selectedAccount;
         break;
         case 2:
         break;
