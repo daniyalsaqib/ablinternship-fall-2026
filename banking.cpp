@@ -30,8 +30,8 @@ return balance;
 }
 
 // friend functions for displaying owner name and account number
-friend string getAccountNumber(int choice);
-friend string getOwnerName(int choice);
+friend string getAccountNumber(BankAccount a[], int choice);
+friend string getOwnerName(BankAccount a[], int choice);
 
 void Deposit(int value) { // Deposit Money
     try
@@ -72,23 +72,28 @@ void Withdraw(int value) { // Withdraw money
 }
 }; // BANKACCOUNT CLASS FINISHED
 
-string getAccountNumber(int choice) {
-    switch (choice) {
-        case 1:
-        return "0010000000000001";
-        case 2:
-        return "0010000000000002";
-        case 3:
-        return "0010000000000003";
-        case 4:
-        return "0010000000000004";
+// friend functions
+string getAccountNumber(BankAccount a[], int choice) {
+    if (choice == -1) // none selected
+    {
+        return "N/A";
     }
+    choice = choice - 1; // as arrays started from 0 index
+    return a[choice].accountnumber;
+}
+
+string getOwnerName(BankAccount a[], int choice) {
+    if (choice == -1) // none selected
+    {
+        return "N/A";
+    }
+    choice = choice - 1; // as arrays started from 0 index
+    return a[choice].name;
 }
 
 int main()
-{
+{   
     BankAccount Account[] = { BankAccount("DANIYAL SAQIB", "0010000000000001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", 2000), BankAccount("AREEB KHAN", "0010000000000003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", 4000) }; 
-    
     int choice; // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
@@ -98,7 +103,7 @@ int main()
     cout << "============================== " << endl;
     cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
     cout << "============================== " << endl;
-    cout << "Currently selected account: [" << getAccountNumber(selectedAccount) << " - " << "owner name" << "]" << endl;
+    cout << "Currently selected account: [" << getAccountNumber(Account,selectedAccount) << " - " << getOwnerName(Account, selectedAccount) << "]" << endl;
     cout << endl; // VERTICAL SPACING AS per the requirements. 
     
     cout << "0. Clear Screen " << endl; // added feature for clearing output
@@ -106,16 +111,16 @@ int main()
     cout << "2. Check Balance" << endl;
     cout << "3. Deposit" << endl;
     cout << "4. Withdraw" << endl; 
-    cout << "5. Exit" << endl; // system("cls")
+    cout << "5. Exit" << endl; 
     cout << "============================== " << endl;
     cout << "Enter your choice: ";
     cin >> choice;
 
     switch (choice) {
-        case 0:
+        case 0: // clearing screen
         system("cls"); 
         break;
-        case 1:
+        case 1: // Selecting an Account
         cout << "WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
         cout << " 1. 0010000000000001" << endl;
         cout << " 2. 0010000000000002" << endl;
@@ -123,16 +128,33 @@ int main()
         cout << " 4. 0010000000000004" << endl;
         cin >> selectedAccount;
         break;
-        case 2:
+        case 2: // Check Account's Balance
+        if (selectedAccount == -1) {
+            cout << "You Have Not Selected any Account For Checking Balance. Please select a Account First " << endl;
+        }
+        else { // Account is selected
+
+        }
         break;
-        case 3:
+        case 3: // Deposit
+        if (selectedAccount == -1) {
+            cout << "You Have Not Selected any Account for Deposit. Please select a Account First " << endl;
+        }
+        else { // Account is selected
+
+        }
         break;
-        case 4:
-        break;
-        case 5:
+        case 4: // Withdrawal
+        if (selectedAccount == -1) {
+            cout << "You Have Not Selected any Account for Withdrawal. Please select a Account First " << endl;
+        }
+        else { // Account is selected
+            
+        }
         break;
     }
-
     } while (choice != 5); // 5 enter krne pr exit hai
+    
+    cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
     return 0;
 }
