@@ -49,8 +49,6 @@ void Deposit(int value) { // Deposit Money
     {
         cout << "ERROR! Please Enter A Valid Amount To Deposit! " << endl;
     }
-    
-   
 }
 void Withdraw(int value) { // Withdraw money
     try {
@@ -78,7 +76,6 @@ string getAccountNumber(BankAccount a[], int choice) {
     {
         return "N/A";
     }
-    choice = choice - 1; // as arrays started from 0 index
     return a[choice].accountnumber;
 }
 
@@ -87,7 +84,6 @@ string getOwnerName(BankAccount a[], int choice) {
     {
         return "N/A";
     }
-    choice = choice - 1; // as arrays started from 0 index
     return a[choice].name;
 }
 
@@ -121,19 +117,24 @@ int main()
         system("cls"); 
         break;
         case 1: // Selecting an Account
-        cout << "WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
-        cout << " 1. 0010000000000001" << endl;
-        cout << " 2. 0010000000000002" << endl;
-        cout << " 3. 0010000000000003" << endl;
-        cout << " 4. 0010000000000004" << endl;
-        cin >> selectedAccount;
+        cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
+        
+        do{ // log out functionality added
+          cout << "-1. I don't want to select an account / Log Out " << endl;
+          cout << " 0. 0010000000000001" << endl;
+          cout << " 1. 0010000000000002" << endl;
+          cout << " 2. 0010000000000003" << endl;
+          cout << " 3. 0010000000000004" << endl;
+          cin >> selectedAccount;
+        } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted 
+        
         break;
         case 2: // Check Account's Balance
         if (selectedAccount == -1) {
             cout << "You Have Not Selected any Account For Checking Balance. Please select a Account First " << endl;
         }
         else { // Account is selected
-
+             cout << "Balance : " << Account[selectedAccount].getBalance() << endl;
         }
         break;
         case 3: // Deposit
@@ -141,7 +142,10 @@ int main()
             cout << "You Have Not Selected any Account for Deposit. Please select a Account First " << endl;
         }
         else { // Account is selected
-
+             int b;
+             cout << "Enter Amount To Deposit : ";
+             cin >> b;
+             Account[selectedAccount].Deposit(b); // called Deposit Function
         }
         break;
         case 4: // Withdrawal
@@ -149,12 +153,16 @@ int main()
             cout << "You Have Not Selected any Account for Withdrawal. Please select a Account First " << endl;
         }
         else { // Account is selected
-            
+             int b;
+             cout << "Enter Amount To Deposit : ";
+             cin >> b;
+             Account[selectedAccount].Deposit(b); // called Deposit Function
         }
         break;
     }
     } while (choice != 5); // 5 enter krne pr exit hai
     
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
+
     return 0;
 }
