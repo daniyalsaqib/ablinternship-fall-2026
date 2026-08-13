@@ -39,15 +39,13 @@ void Deposit(int value) { // Deposit Money
         if (value <= 0) {
          throw value;
         }
-        else {
         balance = balance + value;
         cout << value << " PKR Deposited To Allied Bank. " << endl;
         cout << "Remaining Balance : " << getBalance() << endl;
-        }
     }
     catch(...) // catches any type of error using ...
     {
-        cout << "ERROR! Please Enter A +ve Number to Deposit in! " << endl;
+        cout << "ERROR! Something went wrong! " << endl;
     }
 }
 void Withdraw(int value) { // Withdraw money
@@ -92,6 +90,26 @@ string getOwnerName(BankAccount a[], int choice) {
     return a[choice].name;
 }
 
+
+// Source - https://stackoverflow.com/a/4654718
+// Posted by Charles Salvia, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-08-13, License - CC BY-SA 4.0
+
+bool is_number(const std::string& s)
+{
+    if (s.empty()){
+        return false;
+    }
+    for(int i=0;i<s.length();i++)
+    {
+        if(!isdigit(s[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
+
 int main()
 {   
     BankAccount Account[] = { BankAccount("DANIYAL SAQIB", "0010000000000001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", 2000), BankAccount("AREEB KHAN", "0010000000000003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", 4000) }; 
@@ -101,6 +119,7 @@ int main()
     system("cls"); // for clearing the directory line
 
     do { // 25 to 30 == 26 perfect value
+    system("cls"); // clearing screen after every screen
     cout << "============================== " << endl;
     cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
     cout << "============================== " << endl;
@@ -116,23 +135,19 @@ int main()
     cout << "============================== " << endl;
     cout << "Enter your choice: ";
     cin >> choice;
-
+    
     switch (choice) {
         case 0: // clearing screen
         system("cls"); 
         break;
         case 1: // Selecting an Account
+        system("cls"); // clearing screen after every screen
         cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
         
         do { // log out functionality added
-          cout << "-1. I don't want to select an account / Log Out " << endl;
-          cout << " 0. 0010000000000001 - DANIYAL SAQIB" << endl;
-          cout << " 1. 0010000000000002 - ANAS SHOAIB" << endl;
-          cout << " 2. 0010000000000003 - AREEB KHAN" << endl;
-          cout << " 3. 0010000000000004 - ALIZAY EHSAN" << endl;
-        // for (int i = 0; i < 4; i++) {
-        //     cout << setw(1) << i << "." << setw(1) << getAccountNumber[Account, i];
-        // }
+         for (int i = 0; i < 4; i++) {
+             cout << setw(5) << i << ". " << setw(1) << getAccountNumber(Account, i) << " - " << getOwnerName(Account, i) << endl;
+         }
           cin >> selectedAccount;
         } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted 
         
@@ -142,10 +157,23 @@ int main()
             cout << "You Have Not Selected any Account For Checking Balance. Please select a Account First " << endl;
         }
         else { // Account is selected
+            char balance_choice = ' ';
+            while(true)
+            {
              cout << "Balance : " << Account[selectedAccount].getBalance() << endl;
+             cout << "Press Enter to continue: ";
+             
+             cin.get(balance_choice);
+             cin.ignore();
+             if (balance_choice == '\n'){
+                break;
+             }
+            }
+
+            break;
         }
-        break;
         case 3: // Deposit
+        system("cls"); // clearing screen after every screen
         if (selectedAccount == -1) {
             cout << "You Have Not Selected any Account for Deposit. Please select a Account First " << endl;
         }
@@ -153,10 +181,14 @@ int main()
              int b;
              cout << "Enter Amount To Deposit : ";
              cin >> b;
+             if (!is_number(to_string(b))){
+                 cout << "Please enter a valid input";
+             }
              Account[selectedAccount].Deposit(b); // called Deposit Function
         }
         break;
         case 4: // Withdrawal
+        system("cls"); // clearing screen after every screen
         if (selectedAccount == -1) {
             cout << "You Have Not Selected any Account for Withdrawal. Please select a Account First " << endl;
         }
