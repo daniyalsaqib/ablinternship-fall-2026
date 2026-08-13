@@ -47,7 +47,7 @@ void Deposit(int value) { // Deposit Money
     }
     catch(...) // catches any type of error using ...
     {
-        cout << "ERROR! Please Enter A Valid Amount To Deposit! " << endl;
+        cout << "ERROR! Please Enter A +ve Number to Deposit in! " << endl;
     }
 }
 void Withdraw(int value) { // Withdraw money
@@ -65,7 +65,12 @@ void Withdraw(int value) { // Withdraw money
     }
     }
     catch(...) { // handles all type of exceptions
-         cout << "ERROR! Please Enter A Valid Amount To Withdraw! " << endl;
+          if (value <= 0) {
+            cout << "Withdrawal Failed: Withdrawal amount cannot be in -ve" << endl; 
+          }
+          else { // 1500 > 1000 error
+            cout << "Withdrawal Failed: Amount Exceeds Available Balance" << endl;
+          }
     }
 }
 }; // BANKACCOUNT CLASS FINISHED
@@ -119,12 +124,15 @@ int main()
         case 1: // Selecting an Account
         cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
         
-        do{ // log out functionality added
+        do { // log out functionality added
           cout << "-1. I don't want to select an account / Log Out " << endl;
-          cout << " 0. 0010000000000001" << endl;
-          cout << " 1. 0010000000000002" << endl;
-          cout << " 2. 0010000000000003" << endl;
-          cout << " 3. 0010000000000004" << endl;
+          cout << " 0. 0010000000000001 - DANIYAL SAQIB" << endl;
+          cout << " 1. 0010000000000002 - ANAS SHOAIB" << endl;
+          cout << " 2. 0010000000000003 - AREEB KHAN" << endl;
+          cout << " 3. 0010000000000004 - ALIZAY EHSAN" << endl;
+        // for (int i = 0; i < 4; i++) {
+        //     cout << setw(1) << i << "." << setw(1) << getAccountNumber[Account, i];
+        // }
           cin >> selectedAccount;
         } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted 
         
@@ -154,9 +162,9 @@ int main()
         }
         else { // Account is selected
              int b;
-             cout << "Enter Amount To Deposit : ";
+             cout << "Enter Amount To Withdrawal : ";
              cin >> b;
-             Account[selectedAccount].Deposit(b); // called Deposit Function
+             Account[selectedAccount].Withdraw(b); // called Withdraw Function
         }
         break;
     }
