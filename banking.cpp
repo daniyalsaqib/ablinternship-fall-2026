@@ -17,7 +17,7 @@ class BankAccount
 {
 private: // all attributes declared
     string name, accountnumber;
-    int balance; // i'm using balance as integer for simplifying purposes
+    float balance; // i'm using balance as integer for simplifying purposes
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
     BankAccount(string n, string acc, int b = 0)
@@ -36,7 +36,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     friend string getAccountNumber(BankAccount a[], int choice);
     friend string getOwnerName(BankAccount a[], int choice);
 
-    void Deposit(int value)
+    void Deposit(float value)
     { // Deposit Money
         try
         {
@@ -53,7 +53,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             cout << "Please Enter +ve Number! " << endl;
         }
     }
-    void Withdraw(int value)
+    void Withdraw(float value)
     { // Withdraw money
         try
         {
@@ -217,7 +217,7 @@ int main()
                 else
                 { // Account is selected
                     system("cls"); // clearing screen after every screen
-                    int b;
+                    float b;
                     cout << "Enter Amount To Deposit : ";
                     cin >> b;
                     if (!is_number(to_string(b)))
@@ -240,7 +240,7 @@ int main()
                 }
                 else
                 { // Account is selected
-                    int b;
+                    float b;
                     cout << "Enter Amount To Withdrawal : ";
                     cin >> b;
                     Account[selectedAccount].Withdraw(b); // called Withdraw Function
