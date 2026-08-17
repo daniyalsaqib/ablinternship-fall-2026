@@ -50,7 +50,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         }
         catch (...) // catches any type of error using ...
         {
-            cout << "ERROR! Something went wrong! " << endl;
+            cout << "Please Enter +ve Number! " << endl;
         }
     }
     void Withdraw(int value)
@@ -127,6 +127,7 @@ bool is_number(const std::string &s)
 
 void PressEnterToContinue()
 {
+    cout << endl; // new line
     char balance_choice = ' ';
     while (true)
     {
@@ -175,12 +176,11 @@ int main()
             system("cls");
             break;
         case 1:            // Selecting an Account
-            system("cls"); // clearing screen after every screen
-            cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
-
-            cout << setw(14) << "-1. LOG OUT" << endl; // perfect
             do
             { // log out functionality added
+                system("cls"); // clearing screen after every screen
+                cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
+                cout << setw(14) << "-1. LOG OUT" << endl; // perfect
                 for (int i = 0; i < 4; i++)
                 {
                     cout << setw(5) << i << ". " << setw(1) << getAccountNumber(Account, i) << " - " << getOwnerName(Account, i) << endl;
@@ -204,8 +204,9 @@ int main()
                     cout << "Balance : " << Account[selectedAccount].getBalance() << endl;
                     PressEnterToContinue(); // function made for continuing the process
 
-                    break;
+                    break; // loop break
                 }
+                break; // case break
             case 3:            // Deposit
                 if (selectedAccount == -1)
                 {
@@ -215,6 +216,7 @@ int main()
                 }
                 else
                 { // Account is selected
+                    system("cls"); // clearing screen after every screen
                     int b;
                     cout << "Enter Amount To Deposit : ";
                     cin >> b;
