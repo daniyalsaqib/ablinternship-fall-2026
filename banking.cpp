@@ -105,25 +105,21 @@ string getOwnerName(BankAccount a[], int choice)
     return a[choice].name;
 }
 
-// Source - https://stackoverflow.com/a/4654718
-// Posted by Charles Salvia, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-08-13, License - CC BY-SA 4.0
+// Source - https://stackoverflow.com/a/447307
+// Posted by Bill the Lizard, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-08-17, License - CC BY-SA 2.5
 
-bool is_number(const std::string &s)
-{
-    if (s.empty())
-    {
-        return false;
-    }
-    for (int i = 0; i < s.length(); i++)
-    {
-        if (!isdigit(s[i]))
-        {
-            return false;
-        }
-    }
-    return true;
+#include <string>
+#include <sstream>
+
+bool isFloat( string myString ) {
+    std::istringstream iss(myString);
+    float f;
+    iss >> noskipws >> f; // noskipws considers leading whitespace invalid
+    // Check the entire string was consumed and if either failbit or badbit is set
+    return iss.eof() && !iss.fail(); 
 }
+
 
 void PressEnterToContinue()
 {
@@ -148,12 +144,12 @@ int main()
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
-    system("cls"); // for clearing the directory line
+    //system("cls"); // for clearing the directory line
 
     do
     {
         // 25 to 30 == 26 perfect value
-        system("cls"); // clearing screen after every screen
+        //system("cls"); // clearing screen after every screen
         cout << "============================== " << endl;
         cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
         cout << "============================== " << endl;
@@ -173,12 +169,12 @@ int main()
         switch (choice)
         {
         case 0: // clearing screen
-            system("cls");
+            //system("cls");
             break;
         case 1:            // Selecting an Account
             do
             { // log out functionality added
-                system("cls"); // clearing screen after every screen
+                //system("cls"); // clearing screen after every screen
                 cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
                 cout << setw(14) << "-1. LOG OUT" << endl; // perfect
                 for (int i = 0; i < 4; i++)
@@ -192,13 +188,13 @@ int main()
         case 2: // Check Account's Balance
             if (selectedAccount == -1)
             {
-                system("cls");
+                //system("cls");
                 cout << "You Have Not Selected any Account For Checking Balance. Please select a Account First " << endl;
                 PressEnterToContinue(); // function made for continuing the process
             }
             else
             { // Account is selected
-                system("cls");
+                //system("cls");
                 while (true)
                 {
                     cout << "Balance : " << Account[selectedAccount].getBalance() << endl;
@@ -210,17 +206,17 @@ int main()
             case 3:            // Deposit
                 if (selectedAccount == -1)
                 {
-                    system("cls"); // clearing screen after every screen
+                    //system("cls"); // clearing screen after every screen
                     cout << "You Have Not Selected any Account for Deposit. Please select a Account First " << endl;
                     PressEnterToContinue();
                 }
                 else
                 { // Account is selected
-                    system("cls"); // clearing screen after every screen
+                    //system("cls"); // clearing screen after every screen
                     float b;
                     cout << "Enter Amount To Deposit : ";
                     cin >> b;
-                    if (!is_number(to_string(b)))
+                    if (!isFloat(to_string(b)))
                     {
                         cout << "Please enter a valid input... ";
                         PressEnterToContinue();
@@ -232,7 +228,7 @@ int main()
                 }
                 break;
             case 4:            // Withdrawal
-                system("cls"); // clearing screen after every screen
+                //system("cls"); // clearing screen after every screen
                 if (selectedAccount == -1)
                 {
                     cout << "You Have Not Selected any Account for Withdrawal. Please select a Account First " << endl;
