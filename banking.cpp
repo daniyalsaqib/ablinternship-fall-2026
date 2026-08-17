@@ -157,8 +157,23 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     }
 }; // BANKACCOUNT CLASS FINISHED
 
+// int isdigit( int ch );
+
+bool validinput(string input) {
+for (int i = 0; i < input.size(); i++) { // 0 to size
+    if (!isdigit(input[i])) {
+        return false;
+    }
+}
+return true;
+}
+
 int AccountSelection(BankAccount Account[]) // exception handling applied
 {
+    /*
+    stoi = string to integer
+    to_string(num); = integer to string
+    */
     try
     {
         int selectedAccount = -1; // -1 means nothing is logged in
@@ -172,6 +187,7 @@ int AccountSelection(BankAccount Account[]) // exception handling applied
                 cout << setw(5) << i << ". " << setw(1) << getAccountNumber(Account, i) << " - " << getOwnerName(Account, i) << endl;
             }
             cin >> selectedAccount;
+            if (!validinput(selectedAccount)) {throw;}
         } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted
         return selectedAccount;
     }
