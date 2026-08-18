@@ -226,12 +226,21 @@ string getOwnerName(BankAccount a[], int choice)
 void Login(BankAccount a[])
 {
     char choice; // to continue or not
+    string acc, pin; // these both will be string
     do
     {
         cout << "============================== " << endl;
         cout << setw(26) << "ALLIED BANK - LOGIN" << endl;
         cout << "============================== " << endl;
+
+        // exit functionality added
+        cout << "Do You want To Continue? (y/n) : ";
+        cin >> choice;
     } while (choice != 'y'); // tab tak yes hai tab tak chalta reh
+
+    system("cls"); // clearing screen after all operations
+    cout << "THANK YOU FOR CHOOSING ALLIED BANK!" << endl; // goodbye message
+    exit(0); // exits immediately
 }
 
 int main()
