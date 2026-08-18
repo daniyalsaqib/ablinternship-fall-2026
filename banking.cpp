@@ -15,6 +15,8 @@ getter and setters
 {
     std::cerr << e.what() << '\n';
 }
+
+9:32 AM 18/08/2026 Exception Handling to be learnt 110% Day 1 Completed.
 */
 
 // we'll use Object Oriented Programming here
@@ -80,14 +82,14 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         {
             if (selectedAccount == -1)
             {
-                //system("cls"); // clearing screen after every screen
+                system("cls"); // clearing screen after every screen
                 cout << "You Have Not Selected any Account for Deposit. Please select a Account First " << endl;
                 PressEnterToContinue();
                 return;
             }
             else
             {                  // Account is selected
-                //system("cls"); // clearing screen after every screen
+                system("cls"); // clearing screen after every screen
                 cout << "Enter Amount To Deposit : ";
                 cin >> value;
                 if (!isFloat(to_string(value)))
@@ -121,7 +123,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         float value;
         try
         {
-            //system("cls"); // clearing screen after every screen
+            system("cls"); // clearing screen after every screen
             if (selectedAccount == -1)
             {
                 cout << "You Have Not Selected any Account for Withdrawal. Please select a Account First " << endl;
@@ -179,7 +181,7 @@ int AccountSelection(BankAccount Account[]) // exception handling applied
         int selectedAccount = -1; // -1 means nothing is logged in
         do
         {                  // log out functionality added
-            //system("cls"); // clearing screen after every screen
+            system("cls"); // clearing screen after every screen
             cout << " WHICH ACCOUNT YOU WANT TO SELECT? " << endl;
             cout << setw(14) << "-1. LOG OUT" << endl; // perfect
             for (int i = 0; i < 4; i++)
@@ -187,7 +189,7 @@ int AccountSelection(BankAccount Account[]) // exception handling applied
                 cout << setw(5) << i << ". " << setw(1) << getAccountNumber(Account, i) << " - " << getOwnerName(Account, i) << endl;
             }
             cin >> selectedAccount;
-            if (!validinput(selectedAccount)) {throw;}
+            // if (!validinput(selectedAccount)) {throw;} // exception handling to be learnt
         } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted
         return selectedAccount;
     }
@@ -225,13 +227,13 @@ int main()
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
-    //system("cls");
+    system("cls");
     ; // for clearing the directory line
 
     do
     {
         // 25 to 30 == 26 perfect value
-        //system("cls");
+        system("cls");
         ; // clearing screen after every screen
         cout << "============================== " << endl;
         cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
@@ -252,13 +254,13 @@ int main()
         switch (choice)
         {
         case 0: // clearing screen
-            //system("cls");
+            system("cls");
             break;
         case 1:                                          // Selecting an Account
             selectedAccount = AccountSelection(Account); // simple function dial
             break;
         case 2: // Check Account's Balance
-            //system("cls");
+            system("cls");
             if (selectedAccount == -1)
             {
                 cout << "You Have Not Selected any Account For Checking Balance. Please select a Account First " << endl;
@@ -284,7 +286,7 @@ int main()
         }
     } while (choice != 5); // 5 enter krne pr exit hai
 
-    //system("cls"); // clearing whole screen for goodbye
+    system("cls"); // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
 
     return 0;
