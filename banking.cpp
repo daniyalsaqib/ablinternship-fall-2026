@@ -76,6 +76,16 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         return balance;
     }
 
+    string getPin() // PIN GETTER
+    {
+        return PIN;
+    }
+
+    string getaccnumber()
+    {
+        return accountnumber;
+    }
+
     void Deposit(int selectedAccount) // exception handling applied
     {                                 // Deposit Money
         float value;
@@ -225,7 +235,9 @@ string getOwnerName(BankAccount a[], int choice)
 
 void Login(BankAccount a[])
 {
-    char choice; // to continue or not
+    system("cls"); // for clearing the directory line
+    char choice;   // to continue or not
+    bool checkacc = false;
     string acc, pin; // these both will be string
     do
     {
@@ -234,33 +246,61 @@ void Login(BankAccount a[])
         cout << "============================== " << endl;
 
         // PROMPT
-        cout << "Enter Account Number: ";
-        getline(cin, acc);
-        cout << "Enter PIN: ";
-        getline(cin, pin);
+        do // ACCOUNT NUMBER
+        {
+            cout << "Enter Account Number: ";
+            getline(cin, acc);
+
+            for (int i = 0; i < 4; i++) // 0 to 3
+            {
+                if (acc == a[i].getaccnumber())
+                {
+                    checkacc = true;
+                    break;
+                }
+            }
+
+            if (checkacc == false) {
+                cout << "Sorry! This Account Number Doesn't Exist Please Try Again";
+                PressEnterToContinue();
+            }
+        } while (checkacc == false);
+
+        do // PIN
+        {
+            cout << "Enter PIN: ";
+            getline(cin, pin);
+
+            for (int i = 0; i < 4; i++) // 0 to 3
+            {
+                if (acc == a[i].getPin())
+                {
+                    checkacc = true;
+                    break;
+                }
+            }
+        } while (checkacc == false);
 
         // typical ABL Account Number 0010000000000001
-        // remove first 3 characters using
+        // remove first 3 characters using s.erase(0,3)
 
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
         cin >> choice;
     } while (choice != 'y'); // tab tak yes hai tab tak chalta reh
 
-    system("cls"); // clearing screen after all operations
+    system("cls");                                         // clearing screen after all operations
     cout << "THANK YOU FOR CHOOSING ALLIED BANK!" << endl; // goodbye message
-    exit(0); // exits immediately
+    exit(0);                                               // exits immediately
 }
 
-int LogOut() {return -1;}
+int LogOut() { return -1; }
 
 int main()
 {
     BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002", 2000), BankAccount("AREEB KHAN", "0010000000000003", "0003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004", 4000)};
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
-
-    system("cls"); // for clearing the directory line
 
     do
     {
