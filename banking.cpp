@@ -55,14 +55,15 @@ bool isFloat(string myString)
 class BankAccount
 {
 private: // all attributes declared
-    string name, accountnumber;
+    string name, accountnumber, PIN;
     float balance; // i'm using balance as integer for simplifying purposes
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
-    BankAccount(string n, string acc, int b = 0)
+    BankAccount(string n, string acc, string p,int b = 0)
     { // default paratermized constructor
         name = n;
         accountnumber = acc;
+        PIN = p; // added pin
         balance = b; // by default is 0 but with value can be changed.
     }
 
@@ -161,13 +162,16 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
 
 // int isdigit( int ch );
 
-bool validinput(string input) {
-for (int i = 0; i < input.size(); i++) { // 0 to size
-    if (!isdigit(input[i])) {
-        return false;
+bool validinput(string input)
+{
+    for (int i = 0; i < input.size(); i++)
+    { // 0 to size
+        if (!isdigit(input[i]))
+        {
+            return false;
+        }
     }
-}
-return true;
+    return true;
 }
 
 int AccountSelection(BankAccount Account[]) // exception handling applied
@@ -193,7 +197,7 @@ int AccountSelection(BankAccount Account[]) // exception handling applied
         } while (selectedAccount < -1 || selectedAccount > 3); // -1 to 3 values accepted
         return selectedAccount;
     }
-    catch(const std::exception& e)  // catches any type of error using ...
+    catch (const std::exception &e) // catches any type of error using ...
     {
         std::cerr << e.what() << '\n';
         cout << "Something went wrong! " << endl;
@@ -223,12 +227,11 @@ string getOwnerName(BankAccount a[], int choice)
 
 int main()
 {
-    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", 2000), BankAccount("AREEB KHAN", "0010000000000003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", 4000)};
+    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001",1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002",2000), BankAccount("AREEB KHAN", "0010000000000003", "0003",3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004",4000)};
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
-    system("cls");
-    ; // for clearing the directory line
+    system("cls"); // for clearing the directory line
 
     do
     {
@@ -286,9 +289,8 @@ int main()
         }
     } while (choice != 5); // 5 enter krne pr exit hai
 
-    system("cls"); // clearing whole screen for goodbye
+    system("cls");                                               // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
 
     return 0;
 }
-
