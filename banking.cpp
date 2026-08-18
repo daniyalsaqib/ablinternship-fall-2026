@@ -59,11 +59,11 @@ private: // all attributes declared
     float balance; // i'm using balance as integer for simplifying purposes
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
-    BankAccount(string n, string acc, string p,int b = 0)
+    BankAccount(string n, string acc, string p, int b = 0)
     { // default paratermized constructor
         name = n;
         accountnumber = acc;
-        PIN = p; // added pin
+        PIN = p;     // added pin
         balance = b; // by default is 0 but with value can be changed.
     }
 
@@ -160,8 +160,6 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     }
 }; // BANKACCOUNT CLASS FINISHED
 
-// int isdigit( int ch );
-
 bool validinput(string input)
 {
     for (int i = 0; i < input.size(); i++)
@@ -225,9 +223,20 @@ string getOwnerName(BankAccount a[], int choice)
     return a[choice].name;
 }
 
+void Login(BankAccount a[])
+{
+    char choice; // to continue or not
+    do
+    {
+        cout << "============================== " << endl;
+        cout << setw(26) << "ALLIED BANK - LOGIN" << endl;
+        cout << "============================== " << endl;
+    } while (choice != 'y'); // tab tak yes hai tab tak chalta reh
+}
+
 int main()
 {
-    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001",1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002",2000), BankAccount("AREEB KHAN", "0010000000000003", "0003",3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004",4000)};
+    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002", 2000), BankAccount("AREEB KHAN", "0010000000000003", "0003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004", 4000)};
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
 
@@ -236,8 +245,7 @@ int main()
     do
     {
         // 25 to 30 == 26 perfect value
-        system("cls");
-        ; // clearing screen after every screen
+        system("cls"); // clearing screen after every screen
         cout << "============================== " << endl;
         cout << setw(26) << "ALLIED BANK - MAIN MENU" << endl;
         cout << "============================== " << endl;
