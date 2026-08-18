@@ -233,6 +233,12 @@ void Login(BankAccount a[])
         cout << setw(26) << "ALLIED BANK - LOGIN" << endl;
         cout << "============================== " << endl;
 
+        // PROMPT
+        cout << "Enter Account Number: ";
+        getline(cin, acc);
+        cout << "Enter PIN: ";
+        getline(cin, pin);
+
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
         cin >> choice;
@@ -242,6 +248,8 @@ void Login(BankAccount a[])
     cout << "THANK YOU FOR CHOOSING ALLIED BANK!" << endl; // goodbye message
     exit(0); // exits immediately
 }
+
+int LogOut() {return -1;}
 
 int main()
 {
@@ -261,8 +269,7 @@ int main()
         cout << "Currently selected account: [" << getAccountNumber(Account, selectedAccount) << " - " << getOwnerName(Account, selectedAccount) << "]" << endl;
         cout << endl; // VERTICAL SPACING AS per the requirements.
 
-        cout << "0. Clear Screen " << endl; // added feature for clearing output
-        cout << "1. Select Account" << endl;
+        cout << "1. Log Out" << endl;
         cout << "2. Check Balance" << endl;
         cout << "3. Deposit" << endl;
         cout << "4. Withdraw" << endl;
@@ -273,8 +280,9 @@ int main()
 
         switch (choice)
         {
-        case 0: // clearing screen
-            system("cls");
+        case 0: // LOG OUT
+            selectedAccount = LogOut();
+            Login(Account);
             break;
         case 1:                                          // Selecting an Account
             selectedAccount = AccountSelection(Account); // simple function dial
