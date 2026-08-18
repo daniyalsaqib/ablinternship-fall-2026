@@ -239,6 +239,9 @@ void Login(BankAccount a[])
         cout << "Enter PIN: ";
         getline(cin, pin);
 
+        // typical ABL Account Number 0010000000000001
+        // remove first 3 characters using
+
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
         cin >> choice;
