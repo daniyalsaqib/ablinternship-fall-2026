@@ -263,7 +263,7 @@ string getOwnerName(BankAccount a[], int choice)
     return a[choice].name;
 }
 
-int LogOut() { return -1; }
+int LogOut() { return -1; } // Logged Out
 
 void MainMenu(BankAccount Account[], int sa); // declared so that it can look upward and will call this downward
 
@@ -399,6 +399,7 @@ void MainMenu(BankAccount Account[], int sa)
         cout << "============================== " << endl;
         cout << "Enter your choice: ";
         cin >> choice;
+        cin.ignore(); // cleans cin buffer from here.
 
         switch (choice)
         {
@@ -435,7 +436,7 @@ void MainMenu(BankAccount Account[], int sa)
 
     system("cls");                                               // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
-    exit(0); // exit directly
+    exit(0);                                                     // exit directly
 }
 
 int main()
