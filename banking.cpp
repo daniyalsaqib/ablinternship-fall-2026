@@ -263,13 +263,17 @@ string getOwnerName(BankAccount a[], int choice)
     return a[choice].name;
 }
 
+int LogOut() { return -1; }
+
+void MainMenu(BankAccount Account[], int sa); // declared so that it can look upward and will call this downward
+
 void Login(BankAccount a[]) // This is Outside Class
 {
     system("cls"); // for clearing the directory line
     char choice;   // to continue or not
     bool checkacc = false;
-    string acc, pin, tempacc1,tempacc2;  // these both will be string
-    int attemptsremaining = 3; // local variable just to show in [on failure] requirement
+    string acc, pin, tempacc1, tempacc2; // these both will be string
+    int attemptsremaining = 3;           // local variable just to show in [on failure] requirement
     do
     {
         system("cls");
@@ -278,20 +282,10 @@ void Login(BankAccount a[]) // This is Outside Class
         cout << "============================== " << endl;
 
         // PROMPT
-        do // ACCOUNT NUMBER
+        do // ACCOUNT NUMBER checking if valid or not
         {
             cout << "Enter Account Number: ";
             getline(cin, acc);
-
-            tempacc1 = acc;       // for operations
-            tempacc1.erase(0, 3); // erased first 3 characters
-
-            if (a[stoi(tempacc1) - 1].getLocked()) { // is this true?
-                cout << "This account has been locked due to too many failed attempts." << endl;
-                cout << "Please contact support." << endl;
-                PressEnterToContinue();
-                Login(a); // return back to Login
-            }
 
             for (int i = 0; i < 4; i++) // 0 to 3
             {
@@ -323,6 +317,19 @@ void Login(BankAccount a[]) // This is Outside Class
           cout << s << endl;
         */
 
+        // checking is it already locked
+        tempacc1 = acc;       // for operations
+        tempacc1.erase(0, 3); // erased first 3 characters
+
+        if (a[stoi(tempacc1) - 1].getLocked() == true)
+        { // is this true?
+            cout << "This account has been locked due to too many failed attempts." << endl;
+            cout << "Please contact support." << endl;
+            PressEnterToContinue();
+            Login(a); // return back to Login
+        }
+
+        // If it's not locked, proceed with PIN
         tempacc2 = acc;       // for operations
         tempacc2.erase(0, 3); // erased first 3 characters
 
@@ -332,13 +339,14 @@ void Login(BankAccount a[]) // This is Outside Class
             getline(cin, pin);
 
             if (pin == a[stoi(tempacc2) - 1].getPin())
-            {                                         // Pin successful?
+            {                                          // Pin successful?
                 a[stoi(tempacc2) - 1].ResetAttempts(); // as pin successful attempts back to 0;
+                MainMenu(a, stoi(tempacc2) - 1);
             }
             else
-            {                                       // pin is not same
+            {                                        // pin is not same
                 a[stoi(tempacc2) - 1].AttemptDone(); // that specific account attempt done++
-                attemptsremaining--;                // attempt = attempt - 1
+                attemptsremaining--;                 // attempt = attempt - 1
                 cout << "Incorrect PIN. Attempts remaining: " << attemptsremaining << endl;
 
                 // Account Locking Functionality
@@ -369,16 +377,10 @@ void Login(BankAccount a[]) // This is Outside Class
     exit(0);                                               // exits immediately
 }
 
-int LogOut() { return -1; }
-
-int main()
+void MainMenu(BankAccount Account[], int sa)
 {
-    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002", 2000), BankAccount("AREEB KHAN", "0010000000000003", "0003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004", 4000)};
-    int choice;               // for menu based system input
-    int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
-
-    Login(Account);
-
+    int choice;
+    int selectedAccount = sa;
     do
     {
         // 25 to 30 == 26 perfect value
@@ -400,12 +402,9 @@ int main()
 
         switch (choice)
         {
-        case 0: // LOG OUT
+        case 1: // LOG OUT
             selectedAccount = LogOut();
             Login(Account);
-            break;
-        case 1:                                          // Selecting an Account
-            selectedAccount = AccountSelection(Account); // simple function dial
             break;
         case 2: // Check Account's Balance
             system("cls");
@@ -436,6 +435,13 @@ int main()
 
     system("cls");                                               // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
+}
+
+int main()
+{
+    BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002", 2000), BankAccount("AREEB KHAN", "0010000000000003", "0003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004", 4000)}; // for menu based system input                                                                                                                                                                                                                                                         // what is the current selected account (-1 means no account selected)
+
+    Login(Account);
 
     return 0;
 }
