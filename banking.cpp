@@ -260,7 +260,8 @@ void Login(BankAccount a[])
                 }
             }
 
-            if (checkacc == false) {
+            if (checkacc == false)
+            {
                 cout << "Sorry! This Account Number Doesn't Exist Please Try Again";
                 PressEnterToContinue();
             }
@@ -301,6 +302,8 @@ int main()
     BankAccount Account[] = {BankAccount("DANIYAL SAQIB", "0010000000000001", "0001", 1000), BankAccount("ANAS SHOAIB", "0010000000000002", "0002", 2000), BankAccount("AREEB KHAN", "0010000000000003", "0003", 3000), BankAccount("ALIZAY EHSAN", "0010000000000004", "0004", 4000)};
     int choice;               // for menu based system input
     int selectedAccount = -1; // what is the current selected account (-1 means no account selected)
+
+    Login(Account);
 
     do
     {
