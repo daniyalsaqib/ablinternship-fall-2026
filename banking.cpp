@@ -288,16 +288,20 @@ void Login(BankAccount a[]) // This is Outside Class
             }
         } while (checkacc == false);
 
+        /* if it reaches here, account number already validated
+         FOR EXAMPLE 0010000000000001 (16 DIGIT)
+         remove first 3 characters using s.erase(0,3)
+        */
+
         do // PIN
         {
             cout << "Enter PIN: ";
             getline(cin, pin);
+
+            // if (pin == a[acc])
             
             
         } while (checkacc == false);
-
-        // typical ABL Account Number 0010000000000001
-        // remove first 3 characters using s.erase(0,3)
 
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
