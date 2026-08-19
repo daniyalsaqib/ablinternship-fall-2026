@@ -111,8 +111,9 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         locked = true;
     }
 
-    void AttemptDone() {
-         attempts = attempts + 1;
+    void AttemptDone()
+    {
+        attempts = attempts + 1;
     }
 
     void Deposit(int selectedAccount) // exception handling applied
@@ -267,10 +268,11 @@ void Login(BankAccount a[]) // This is Outside Class
     system("cls"); // for clearing the directory line
     char choice;   // to continue or not
     bool checkacc = false;
-    string acc, pin, tempacc; // these both will be string
+    string acc, pin, tempacc1,tempacc2;  // these both will be string
     int attemptsremaining = 3; // local variable just to show in [on failure] requirement
     do
     {
+        system("cls");
         cout << "============================== " << endl;
         cout << setw(26) << "ALLIED BANK - LOGIN" << endl;
         cout << "============================== " << endl;
@@ -280,6 +282,16 @@ void Login(BankAccount a[]) // This is Outside Class
         {
             cout << "Enter Account Number: ";
             getline(cin, acc);
+
+            tempacc1 = acc;       // for operations
+            tempacc1.erase(0, 3); // erased first 3 characters
+
+            if (a[stoi(tempacc1) - 1].getLocked()) { // is this true?
+                cout << "This account has been locked due to too many failed attempts." << endl;
+                cout << "Please contact support." << endl;
+                PressEnterToContinue();
+                Login(a); // return back to Login
+            }
 
             for (int i = 0; i < 4; i++) // 0 to 3
             {
@@ -311,42 +323,46 @@ void Login(BankAccount a[]) // This is Outside Class
           cout << s << endl;
         */
 
-        tempacc = acc; // for operations
-        tempacc.erase(0,3); // erased first 3 characters
-
+        tempacc2 = acc;       // for operations
+        tempacc2.erase(0, 3); // erased first 3 characters
 
         do // PIN
         {
             cout << "Enter PIN: ";
             getline(cin, pin);
 
-            if (pin == a[stoi(tempacc) - 1].getPin()) { // Pin successful?
-                a[stoi(tempacc) - 1].ResetAttempts(); // as pin successful attempts back to 0;
+            if (pin == a[stoi(tempacc2) - 1].getPin())
+            {                                         // Pin successful?
+                a[stoi(tempacc2) - 1].ResetAttempts(); // as pin successful attempts back to 0;
             }
-            else { // pin is not same
-                a[stoi(tempacc) - 1].AttemptDone(); // that specific account attempt done++
-                attemptsremaining--; // attempt = attempt - 1
+            else
+            {                                       // pin is not same
+                a[stoi(tempacc2) - 1].AttemptDone(); // that specific account attempt done++
+                attemptsremaining--;                // attempt = attempt - 1
                 cout << "Incorrect PIN. Attempts remaining: " << attemptsremaining << endl;
 
                 // Account Locking Functionality
-                if (a[stoi(tempacc) - 1].getAttempts() == 3) { 
-                    a[stoi(tempacc) - 1].AccountLocked();
-                } 
+                if (a[stoi(tempacc2) - 1].getAttempts() == 3)
+                {
+                    a[stoi(tempacc2) - 1].AccountLocked();
+                }
             }
 
             // as per requirement in [on lockout] heading
-            if (a[stoi(tempacc) - 1].getLocked() == true){
+            if (a[stoi(tempacc2) - 1].getLocked() == true)
+            {
                 cout << "This account has been locked due to too many failed attempts." << endl;
                 cout << "Please contact support." << endl;
                 PressEnterToContinue();
             }
 
-        } while (a[stoi(tempacc) - 1].getLocked() == false);
+        } while (a[stoi(tempacc2) - 1].getLocked() == false);
 
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
         cin >> choice;
-    } while (choice != 'y'); // tab tak yes hai tab tak chalta reh
+        cin.ignore(); // for clearing out input buffer
+    } while (choice != 'n'); // tab tak yes hai tab tak chalta reh
 
     system("cls");                                         // clearing screen after all operations
     cout << "THANK YOU FOR CHOOSING ALLIED BANK!" << endl; // goodbye message
