@@ -57,6 +57,8 @@ class BankAccount
 private: // all attributes declared
     string name, accountnumber, PIN;
     float balance; // i'm using balance as integer for simplifying purposes
+    int attempts; // attempts or failed attempts whatever you call it
+    bool locked;
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
     BankAccount(string n, string acc, string p, int b = 0)
@@ -65,13 +67,15 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         accountnumber = acc;
         PIN = p;     // added pin
         balance = b; // by default is 0 but with value can be changed.
+        attempts = 0; // it's for every account same
+        locked = false; // account locking if attempts == 3
     }
 
     // friend functions for displaying owner name and account number
     friend string getAccountNumber(BankAccount a[], int choice);
     friend string getOwnerName(BankAccount a[], int choice);
 
-    float getBalance()
+    float getBalance() // Balance Getter
     {
         return balance;
     }
@@ -81,9 +85,26 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         return PIN;
     }
 
+    bool getLocked() { // returning status of locked variable
+        return locked;
+    }
+
     string getaccnumber()
     {
         return accountnumber;
+    }
+
+    int getAttempts() { // attempts getter
+        return attempts;
+    }
+
+    // setters
+    void ResetAttempts() { // reset failed attempts
+        attempts = 0;
+    }
+
+    void AccountLocked() { // just locks the account forever (as per question statement) 
+        locked = true;
     }
 
     void Deposit(int selectedAccount) // exception handling applied
@@ -233,7 +254,7 @@ string getOwnerName(BankAccount a[], int choice)
     return a[choice].name;
 }
 
-void Login(BankAccount a[])
+void Login(BankAccount a[]) // This is Outside Class
 {
     system("cls"); // for clearing the directory line
     char choice;   // to continue or not
@@ -271,15 +292,8 @@ void Login(BankAccount a[])
         {
             cout << "Enter PIN: ";
             getline(cin, pin);
-
-            for (int i = 0; i < 4; i++) // 0 to 3
-            {
-                if (acc == a[i].getPin())
-                {
-                    checkacc = true;
-                    break;
-                }
-            }
+            
+            
         } while (checkacc == false);
 
         // typical ABL Account Number 0010000000000001
