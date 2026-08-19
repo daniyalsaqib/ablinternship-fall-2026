@@ -435,6 +435,7 @@ void MainMenu(BankAccount Account[], int sa)
 
     system("cls");                                               // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
+    exit(0); // exit directly
 }
 
 int main()
