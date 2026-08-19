@@ -57,7 +57,7 @@ class BankAccount
 private: // all attributes declared
     string name, accountnumber, PIN;
     float balance; // i'm using balance as integer for simplifying purposes
-    int attempts; // attempts or failed attempts whatever you call it
+    int attempts;  // attempts or failed attempts whatever you call it
     bool locked;
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
@@ -65,9 +65,9 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     { // default paratermized constructor
         name = n;
         accountnumber = acc;
-        PIN = p;     // added pin
-        balance = b; // by default is 0 but with value can be changed.
-        attempts = 0; // it's for every account same
+        PIN = p;        // added pin
+        balance = b;    // by default is 0 but with value can be changed.
+        attempts = 0;   // it's for every account same
         locked = false; // account locking if attempts == 3
     }
 
@@ -85,7 +85,8 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         return PIN;
     }
 
-    bool getLocked() { // returning status of locked variable
+    bool getLocked()
+    { // returning status of locked variable
         return locked;
     }
 
@@ -94,17 +95,24 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         return accountnumber;
     }
 
-    int getAttempts() { // attempts getter
+    int getAttempts()
+    { // attempts getter
         return attempts;
     }
 
     // setters
-    void ResetAttempts() { // reset failed attempts
+    void ResetAttempts()
+    { // reset failed attempts
         attempts = 0;
     }
 
-    void AccountLocked() { // just locks the account forever (as per question statement) 
+    void AccountLocked()
+    { // just locks the account forever (as per question statement)
         locked = true;
+    }
+
+    void AttemptDone() {
+         attempts = attempts + 1;
     }
 
     void Deposit(int selectedAccount) // exception handling applied
@@ -259,7 +267,8 @@ void Login(BankAccount a[]) // This is Outside Class
     system("cls"); // for clearing the directory line
     char choice;   // to continue or not
     bool checkacc = false;
-    string acc, pin; // these both will be string
+    string acc, pin, tempacc; // these both will be string
+    int attemptsremaining = 3; // local variable just to show in [on failure] requirement
     do
     {
         cout << "============================== " << endl;
@@ -291,17 +300,48 @@ void Login(BankAccount a[]) // This is Outside Class
         /* if it reaches here, account number already validated
          FOR EXAMPLE 0010000000000001 (16 DIGIT)
          remove first 3 characters using s.erase(0,3)
+         0000000000001
+         Caution: erase() function literally erases characters
+
+          // Write C++ code here
+          string s = "0010000000000001"; // abl checking
+          cout << s.erase(0,3) << endl;
+          cout << s << endl;
+          cout << stoi(s) << endl;
+          cout << s << endl;
         */
+
+        tempacc = acc; // for operations
+        tempacc.erase(0,3); // erased first 3 characters
+
 
         do // PIN
         {
             cout << "Enter PIN: ";
             getline(cin, pin);
 
-            // if (pin == a[acc])
-            
-            
-        } while (checkacc == false);
+            if (pin == a[stoi(tempacc) - 1].getPin()) { // Pin successful?
+                a[stoi(tempacc) - 1].ResetAttempts(); // as pin successful attempts back to 0;
+            }
+            else { // pin is not same
+                a[stoi(tempacc) - 1].AttemptDone(); // that specific account attempt done++
+                attemptsremaining--; // attempt = attempt - 1
+                cout << "Incorrect PIN. Attempts remaining: " << attemptsremaining << endl;
+
+                // Account Locking Functionality
+                if (a[stoi(tempacc) - 1].getAttempts() == 3) { 
+                    a[stoi(tempacc) - 1].AccountLocked();
+                } 
+            }
+
+            // as per requirement in [on lockout] heading
+            if (a[stoi(tempacc) - 1].getLocked() == true){
+                cout << "This account has been locked due to too many failed attempts." << endl;
+                cout << "Please contact support." << endl;
+                PressEnterToContinue();
+            }
+
+        } while (a[stoi(tempacc) - 1].getLocked() == false);
 
         // exit functionality added
         cout << "Do You want To Continue? (y/n) : ";
