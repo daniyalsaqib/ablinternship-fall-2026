@@ -2,6 +2,7 @@
 #include <iomanip> // for formatting purposes setw() etc
 #include <string>
 #include <sstream>
+#include <ctime> // For Transaction History and Mini Statement
 using namespace std;
 
 /*
@@ -391,11 +392,14 @@ void MainMenu(BankAccount Account[], int sa)
         cout << "Currently selected account: [" << getAccountNumber(Account, selectedAccount) << " - " << getOwnerName(Account, selectedAccount) << "]" << endl;
         cout << endl; // VERTICAL SPACING AS per the requirements.
 
-        cout << "1. Log Out" << endl;
-        cout << "2. Check Balance" << endl;
-        cout << "3. Deposit" << endl;
-        cout << "4. Withdraw" << endl;
-        cout << "5. Exit" << endl;
+        // updated main menu for Day 3
+        cout << "1. Check Balance" << endl;
+        cout << "2. Deposit" << endl;
+        cout << "3. Withdraw" << endl;
+        cout << "4. Mini Statement" << endl;
+        cout << "5. Statement By Type" << endl;
+        cout << "6. Log Out" << endl;
+        cout << "7. Exit" << endl;
         cout << "============================== " << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -403,11 +407,7 @@ void MainMenu(BankAccount Account[], int sa)
 
         switch (choice)
         {
-        case 1: // LOG OUT
-            selectedAccount = LogOut();
-            Login(Account);
-            break;
-        case 2: // Check Account's Balance
+        case 1: // Check Account's Balance
             system("cls");
             if (selectedAccount == -1)
             {
@@ -420,19 +420,26 @@ void MainMenu(BankAccount Account[], int sa)
                 {
                     cout << "Balance : " << Account[selectedAccount].getBalance() << endl;
                     PressEnterToContinue(); // function made for continuing the process
-
-                    break; // loop break
+                    break;                  // loop break
                 }
             }
-            break;                                             // case break
-        case 3:                                                // Deposit
+            break;
+        case 2:                                                // Deposit
             Account[selectedAccount].Deposit(selectedAccount); // called Deposit Function
             break;
-        case 4:                                                 // Withdrawal
+        case 3:                                                 // Withdrawal
             Account[selectedAccount].Withdraw(selectedAccount); // called Withdraw Function
             break;
+        case 4: // Mini Statement
+            break;
+        case 5: // Statement By Type
+            break;
+        case 6: // LOG OUT
+            selectedAccount = LogOut();
+            Login(Account);
+            break;
         }
-    } while (choice != 5); // 5 enter krne pr exit hai
+    } while (choice != 7); // EXIT UPDATED TO 7
 
     system("cls");                                               // clearing whole screen for goodbye
     cout << "THANK YOU FOR YOUR TRUST IN US! GOODBYE! " << endl; // goodbye message
