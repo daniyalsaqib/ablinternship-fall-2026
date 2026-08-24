@@ -57,8 +57,9 @@ class BankAccount
 {
 private: // all attributes declared
     string name, accountnumber, PIN;
-    float balance; // i'm using balance as integer for simplifying purposes
-    int attempts;  // attempts or failed attempts whatever you call it
+    string statement[5]; // only latest need to be shown so 5 sized array is best
+    float balance;       // i'm using balance as integer for simplifying purposes
+    int attempts;        // attempts or failed attempts whatever you call it
     bool locked;
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
@@ -70,6 +71,10 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         balance = b;    // by default is 0 but with value can be changed.
         attempts = 0;   // it's for every account same
         locked = false; // account locking if attempts == 3
+        // initialize statement array
+        for (int i = 0; i < 5; i++) {
+            statement[i] = " ";
+        }
     }
 
     // friend functions for displaying owner name and account number
@@ -149,6 +154,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
                 return;
             }
 
+            // SUCCESSFULLY DEPOSITED.
             balance = balance + value;
             cout << value << " PKR Deposited To Allied Bank. " << endl;
             cout << "Remaining Balance : " << getBalance() << endl;
@@ -199,6 +205,33 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             return;
         }
     }
+
+    void MiniStatement(int selectedAccount)
+    {
+        /* ROUGH WORKING
+         [DATE TIME] TypeOfTransaction (+/-) Amount
+         Example:
+         [24-08-2026 15:12:10] DEPOSIT + 5000
+        */
+        system("cls");
+        cout << "============================== " << endl;
+        cout << setw(26) << "   MINI STATEMENT (Last 5)" << endl;
+        cout << "============================== " << endl;
+        if (statement[0] == " ")
+        {
+            cout << "No Transactions Yet";
+            PressEnterToContinue();
+        }
+        else {
+            cout << "work in progress";
+            PressEnterToContinue();
+        }
+    }
+
+    void StatementByType(int selectedAccount)
+    {
+    }
+
 }; // BANKACCOUNT CLASS FINISHED
 
 bool validinput(string input)
@@ -431,8 +464,10 @@ void MainMenu(BankAccount Account[], int sa)
             Account[selectedAccount].Withdraw(selectedAccount); // called Withdraw Function
             break;
         case 4: // Mini Statement
+            Account[selectedAccount].MiniStatement(selectedAccount);
             break;
         case 5: // Statement By Type
+            Account[selectedAccount].StatementByType(selectedAccount);
             break;
         case 6: // LOG OUT
             selectedAccount = LogOut();
