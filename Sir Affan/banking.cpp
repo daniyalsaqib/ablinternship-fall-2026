@@ -2,7 +2,8 @@
 #include <iomanip> // for formatting purposes setw() etc
 #include <string>
 #include <sstream>
-#include <ctime> // For Transaction History and Mini Statement
+#include <ctime>     // For Transaction History and Mini Statement
+#include <algorithm> // for npos
 using namespace std;
 
 /*
@@ -57,9 +58,9 @@ class BankAccount
 {
 private: // all attributes declared
     string name, accountnumber, PIN;
-    string statement[5]; // only latest need to be shown so 5 sized array is best
-    float balance;       // i'm using balance as integer for simplifying purposes
-    int attempts;        // attempts or failed attempts whatever you call it
+    string statement[5];              // only latest need to be shown so 5 sized array is best
+    float balance;                    // i'm using balance as integer for simplifying purposes
+    int attempts, NumberOfStatements; // attempts or failed attempts whatever you call it
     bool locked;
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
@@ -72,9 +73,11 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         attempts = 0;   // it's for every account same
         locked = false; // account locking if attempts == 3
         // initialize statement array
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             statement[i] = " ";
         }
+        NumberOfStatements = 0; // for using in statement array
     }
 
     // friend functions for displaying owner name and account number
@@ -158,6 +161,10 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             balance = balance + value;
             cout << value << " PKR Deposited To Allied Bank. " << endl;
             cout << "Remaining Balance : " << getBalance() << endl;
+            time_t timestamp;
+            time(&timestamp);
+            statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "] " + " DEPOSIT" + " + " + to_string(value);
+            NumberOfStatements++;
         }
         catch (...) // catches any type of error using ...
         {
@@ -196,6 +203,9 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
                 balance = balance - value;
                 cout << value << " PKR Withdrawn from Allied Bank. " << endl;
                 cout << "Remaining Balance : " << getBalance() << endl;
+                time_t timestamp;
+                statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "]" + "Withdrawal" + " - " + to_string(value);
+                NumberOfStatements++;
             }
         }
         catch (...) // catches any type of error using ...
@@ -217,19 +227,69 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         cout << "============================== " << endl;
         cout << setw(26) << "   MINI STATEMENT (Last 5)" << endl;
         cout << "============================== " << endl;
-        if (statement[0] == " ")
+        if (statement[0] == " ") // no transactions
         {
             cout << "No Transactions Yet";
             PressEnterToContinue();
         }
-        else {
-            cout << "work in progress";
+        else
+        { // there are transactions to be shown
+            int i = 0;
+            do
+            {
+                cout << statement[i] << endl;
+            } while (statement[i] != " ");
             PressEnterToContinue();
         }
     }
 
     void StatementByType(int selectedAccount)
     {
+        system("cls");
+        int choice;          // for selecting between Deposits and Withdrawals
+        string typeselected; // selected typed
+
+        // PROMPT
+        do
+        {
+            cout << "Show statement for: " << endl;
+            cout << "1. Deposits " << endl;
+            cout << "2. Withdrawals " << endl;
+            cin >> choice;
+        } while (choice < 1 || choice > 2); // 0 and 3
+
+        // Selected Type For Display
+        if (choice == 1)
+        {
+            typeselected = "DEPOSITS";
+        }
+        else
+        {
+            typeselected = "WITHDRAWALS";
+        }
+
+        // NOW ONTO
+        cout << "============================== " << endl;
+        cout << setw(26) << typeselected << " (Last 5)" << endl;
+        cout << "============================== " << endl;
+        if (statement[0] == " ") // no transactions
+        {
+            cout << "No Transactions Yet";
+            PressEnterToContinue();
+        }
+        else
+        { // there are transactions to be shown
+            int i = 0;
+            do
+            {
+                if (statement[i].find(typeselected) != string::npos)
+                {
+                    cout << statement[i] << endl;
+                }
+                i++; // incrementer
+            } while (statement[i] != " ");
+            PressEnterToContinue();
+        }
     }
 
 }; // BANKACCOUNT CLASS FINISHED
