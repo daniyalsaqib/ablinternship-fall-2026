@@ -164,7 +164,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             time_t timestamp;
             time(&timestamp);
             statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "] " + " DEPOSIT" + " + " + to_string(value);
-            NumberOfStatements++;
+            ++NumberOfStatements;
         }
         catch (...) // catches any type of error using ...
         {
@@ -205,7 +205,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
                 cout << "Remaining Balance : " << getBalance() << endl;
                 time_t timestamp;
                 statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "]" + "Withdrawal" + " - " + to_string(value);
-                NumberOfStatements++;
+                ++NumberOfStatements;
             }
         }
         catch (...) // catches any type of error using ...
@@ -230,7 +230,6 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         if (statement[0] == " ") // no transactions
         {
             cout << "No Transactions Yet";
-            PressEnterToContinue();
         }
         else
         { // there are transactions to be shown
@@ -238,9 +237,10 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             do
             {
                 cout << statement[i] << endl;
+                i++;
             } while (statement[i] != " ");
-            PressEnterToContinue();
         }
+        PressEnterToContinue();
     }
 
     void StatementByType(int selectedAccount)
