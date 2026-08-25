@@ -82,8 +82,18 @@ private: // all attributes declared
         char buffer[30];
         // formatting as [YYYY-MM-DD HH:MM:SS]
         strftime(buffer, sizeof(buffer), "[%Y-%m-%d %H:%M:%S]", ltm);
-        statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
-        ++NumberOfStatements;
+        if (getNumberOfStatements() == 4)
+        {
+            // shift all records to left hand side
+            ShiftStatement();
+            statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
+            // no need to + here as already last index pr hum hain
+        }
+        else // number of statements < 4
+        {
+            ++NumberOfStatements; // as because of -1
+            statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
+        }
         // THANKS ASIM
     }
 
@@ -101,7 +111,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         {
             statement[i] = " ";
         }
-        NumberOfStatements = 0; // for using in statement array
+        NumberOfStatements = -1; // -1 means no statement
     }
 
     // friend functions for displaying owner name and account number
@@ -155,11 +165,12 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     }
 
     // shift all statements to left hand side for new statements
-    void UpdateStatement()
+    void ShiftStatement()
     {
-        for (int i = 4; i > 0; i--)
+        for (int i = 1; i < 5; i++)
         { // 4 to 1
-            statement[i - 1] = statement[i];
+            // statement[i - 1] = statement[i];
+            statement[i - 1].assign(statement[i]); // stBring function
         }
         statement[4] = " "; // empty it up for the new record
     }
@@ -201,7 +212,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             cout << value << " PKR Deposited To Allied Bank. " << endl;
             cout << "Remaining Balance : " << getBalance() << endl;
             SavingTimeOfTransaction(" DEPOSIT ", " + ", value); // THANKS ASIM
-            PressEnterToContinue(); // very critical
+            PressEnterToContinue();                             // very critical
         }
         catch (...) // catches any type of error using ...
         {
@@ -271,12 +282,10 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         }
         else
         { // there are transactions to be shown
-            int i = 0;
-            do
+            for (int i = getNumberOfStatements(); i >= 0; i--)
             {
                 cout << statement[i] << endl;
-                i++;
-            } while (statement[i] != " ");
+            }
         }
         PressEnterToContinue();
     }
