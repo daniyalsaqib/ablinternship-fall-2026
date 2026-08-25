@@ -58,10 +58,25 @@ class BankAccount
 {
 private: // all attributes declared
     string name, accountnumber, PIN;
-    string statement[5];              // only latest need to be shown so 5 sized array is best
+    int size = 5;
+    // initializing a dynamic array
+    string* statement = new string[size]{ " ", " ", " ", " ", " "};              // only latest need to be shown so 5 sized array is best
     float balance;                    // i'm using balance as integer for simplifying purposes
     int attempts, NumberOfStatements; // attempts or failed attempts whatever you call it
     bool locked;
+
+    // private because it shouldn't be called other than in deposit or withdrawal
+    void SavingTimeOfTransaction(string type, string sign, int value) {
+        // TIME STAMP CODE BY ASIM
+            time_t timestamp = time(0);
+            tm *ltm = localtime(&timestamp);
+            char buffer[30];
+            // formatting as [YYYY-MM-DD HH:MM:SS]
+            strftime(buffer, sizeof(buffer), "[%Y-%m-%d %H:%M:%S]", ltm);
+            statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
+            ++NumberOfStatements;
+            // THANKS ASIM
+    }
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
     BankAccount(string n, string acc, string p, int b = 0)
@@ -161,10 +176,8 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             balance = balance + value;
             cout << value << " PKR Deposited To Allied Bank. " << endl;
             cout << "Remaining Balance : " << getBalance() << endl;
-            time_t timestamp;
-            time(&timestamp);
-            statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "] " + " DEPOSIT" + " + " + to_string(value);
-            ++NumberOfStatements;
+            SavingTimeOfTransaction(" DEPOSIT ", " + ", value); // THANKS ASIM
+            PressEnterToContinue(); // very critical
         }
         catch (...) // catches any type of error using ...
         {
@@ -193,19 +206,20 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
             if (value <= 0)
             {
                 cout << "Withdrawal Failed: Withdrawal amount cannot be in -ve" << endl;
+                PressEnterToContinue();
             }
             else if (value > getBalance())
             { // 1500 > 1000 error
                 cout << "Withdrawal Failed: Amount Exceeds Available Balance" << endl;
+                PressEnterToContinue(); // to show the message
             }
             else
             { // successful
                 balance = balance - value;
                 cout << value << " PKR Withdrawn from Allied Bank. " << endl;
                 cout << "Remaining Balance : " << getBalance() << endl;
-                time_t timestamp;
-                statement[NumberOfStatements] = "[" + to_string(time(&timestamp)) + "]" + "Withdrawal" + " - " + to_string(value);
-                ++NumberOfStatements;
+                SavingTimeOfTransaction(" WITHDRAWAL ", " - ", value);
+                PressEnterToContinue();
             }
         }
         catch (...) // catches any type of error using ...
