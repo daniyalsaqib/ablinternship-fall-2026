@@ -265,7 +265,7 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         }
     }
 
-    void MiniStatement(int selectedAccount)
+    void MiniStatement(int selectedAccount) // completed
     {
         /* ROUGH WORKING
          [DATE TIME] TypeOfTransaction (+/-) Amount
@@ -308,16 +308,16 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         // Selected Type For Display
         if (choice == 1)
         {
-            typeselected = "DEPOSITS";
+            typeselected = "DEPOSIT";
         }
         else
         {
-            typeselected = "WITHDRAWALS";
+            typeselected = "WITHDRAWAL";
         }
 
         // NOW ONTO
         cout << "============================== " << endl;
-        cout << setw(26) << typeselected << " (Last 5)" << endl;
+        cout << setw(15) << typeselected << " (Last 5)" << endl;
         cout << "============================== " << endl;
         if (statement[0] == " ") // no transactions
         {
@@ -326,15 +326,14 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         }
         else
         { // there are transactions to be shown
-            int i = 0;
-            do
+            for (int i = getNumberOfStatements(); i >= 0; i--)
             {
                 if (statement[i].find(typeselected) != string::npos)
                 {
                     cout << statement[i] << endl;
                 }
-                i++; // incrementer
-            } while (statement[i] != " ");
+            }
+
             PressEnterToContinue();
         }
     }
