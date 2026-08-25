@@ -60,22 +60,31 @@ private: // all attributes declared
     string name, accountnumber, PIN;
     int size = 5;
     // initializing a dynamic array
-    string* statement = new string[size]{ " ", " ", " ", " ", " "};              // only latest need to be shown so 5 sized array is best
-    float balance;                    // i'm using balance as integer for simplifying purposes
-    int attempts, NumberOfStatements; // attempts or failed attempts whatever you call it
+    string *statement = new string[size]{" ", " ", " ", " ", " "}; // only latest need to be shown so 5 sized array is best
+    float balance;                                                 // i'm using balance as integer for simplifying purposes
+    int attempts, NumberOfStatements;                              // attempts or failed attempts whatever you call it
     bool locked;
 
+    /*
+    if (getNumberOfStatements() == 4)
+            {
+                // shift all records to left hand side
+                UpdateStatement();
+            }
+    */
+
     // private because it shouldn't be called other than in deposit or withdrawal
-    void SavingTimeOfTransaction(string type, string sign, int value) {
+    void SavingTimeOfTransaction(string type, string sign, int value)
+    {
         // TIME STAMP CODE BY ASIM
-            time_t timestamp = time(0);
-            tm *ltm = localtime(&timestamp);
-            char buffer[30];
-            // formatting as [YYYY-MM-DD HH:MM:SS]
-            strftime(buffer, sizeof(buffer), "[%Y-%m-%d %H:%M:%S]", ltm);
-            statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
-            ++NumberOfStatements;
-            // THANKS ASIM
+        time_t timestamp = time(0);
+        tm *ltm = localtime(&timestamp);
+        char buffer[30];
+        // formatting as [YYYY-MM-DD HH:MM:SS]
+        strftime(buffer, sizeof(buffer), "[%Y-%m-%d %H:%M:%S]", ltm);
+        statement[NumberOfStatements] = string(buffer) + type + sign + to_string(value);
+        ++NumberOfStatements;
+        // THANKS ASIM
     }
 
 public: // account number for allied bank is 16 digits with first 3 digits is 001.
@@ -124,6 +133,11 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
         return attempts;
     }
 
+    // very necessary
+    int getNumberOfStatements()
+    {
+        return NumberOfStatements;
+    }
     // setters
     void ResetAttempts()
     { // reset failed attempts
@@ -138,6 +152,16 @@ public: // account number for allied bank is 16 digits with first 3 digits is 00
     void AttemptDone()
     {
         attempts = attempts + 1;
+    }
+
+    // shift all statements to left hand side for new statements
+    void UpdateStatement()
+    {
+        for (int i = 4; i > 0; i--)
+        { // 4 to 1
+            statement[i - 1] = statement[i];
+        }
+        statement[4] = " "; // empty it up for the new record
     }
 
     void Deposit(int selectedAccount) // exception handling applied
